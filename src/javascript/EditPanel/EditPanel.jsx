@@ -1,6 +1,12 @@
 import React, {useEffect} from 'react';
 import {Badge, MainLayout} from '@jahia/design-system-kit';
-import {buttonRenderer, DisplayActions, withNotifications, DisplayAction, iconButtonRenderer} from '@jahia/react-material';
+import {
+    buttonRenderer,
+    DisplayActions,
+    withNotifications,
+    DisplayAction,
+    iconButtonRenderer
+} from '@jahia/react-material';
 import PropTypes from 'prop-types';
 import {compose, withApollo} from 'react-apollo';
 import {useTranslation} from 'react-i18next';
@@ -11,6 +17,8 @@ import {Error} from '@material-ui/icons';
 import {useContentEditorContext} from '~/ContentEditor.context';
 import {withStyles} from '@material-ui/core';
 import PublicationInfoBadge from '~/PublicationInfo/PublicationInfo.badge';
+import Button from '@material-ui/core/Button';
+import {Constants} from '~/ContentEditor.constants';
 
 const styles = theme => ({
     actionButtonHeaderContainer: {
@@ -26,7 +34,7 @@ const styles = theme => ({
     }
 });
 
-const EditPanelCmp = ({formik, title, classes, notificationContext, client}) => {
+const EditPanelCmp = ({formik, title, classes, notificationContext, client, close}) => {
     const {t} = useTranslation();
     const {nodeData, siteInfo, lang, uiLang, mode} = useContentEditorContext();
 
@@ -51,7 +59,7 @@ const EditPanelCmp = ({formik, title, classes, notificationContext, client}) => 
     return (
         <MainLayout
             topBarProps={{
-                path: <DisplayActions context={{nodeData, siteInfo}}
+                path: <DisplayActions context={{nodeData, siteInfo, close}}
                                       target="editHeaderPathActions"
                                       render={({context}) => {
                                           const Button = buttonRenderer({variant: 'ghost', color: 'inverted'}, true);
@@ -128,9 +136,13 @@ const EditPanelCmp = ({formik, title, classes, notificationContext, client}) => 
                 )
             }}
         >
-            <EditPanelContent isDirty={formik.dirty}/>
+            <EditPanelContent isDirty={formik.dirty} mode={Constants.routes.baseEditRoute}/>
         </MainLayout>
     );
+};
+
+EditPanelCmp.defaultTypes = {
+    close: undefined
 };
 
 EditPanelCmp.propTypes = {
@@ -138,7 +150,8 @@ EditPanelCmp.propTypes = {
     title: PropTypes.string.isRequired,
     classes: PropTypes.object.isRequired,
     client: PropTypes.object.isRequired,
-    notificationContext: PropTypes.object.isRequired
+    notificationContext: PropTypes.object.isRequired,
+    close: PropTypes.func
 };
 
 const EditPanel = compose(

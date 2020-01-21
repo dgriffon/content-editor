@@ -6,6 +6,9 @@ import {registerCEActions} from './registerCEActions';
 import {Constants} from '~/ContentEditor.constants';
 import ContentEditor from './ContentEditor';
 import {useI18nCENamespace} from '~/useI18n';
+import {
+    CreateNewContentDialogWrapper
+} from '~/Create/CreateNewContentAction/CreateNewContentDialog';
 
 console.debug('%c Content Editor is activated', 'color: #3c8cba');
 
@@ -36,3 +39,16 @@ registry.add('create-route', {
     path: `/:siteKey/:lang/${Constants.routes.baseCreateRoute}`,
     render: () => <ContentEditor mode="create"/>
 });
+
+registry.add('edit-extension', {
+    type: 'extension',
+    target: ['cmm:0.1'],
+    // eslint-disable-next-line react/prop-types
+    component: ({onClose}) => <ContentEditor onClose={onClose}/>
+});
+
+registry.add('create-extension', {
+    type: 'extension',
+    target: ['cmm:0.2'],
+    component: () => <CreateNewContentDialogWrapper/>
+})

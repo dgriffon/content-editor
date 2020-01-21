@@ -24,7 +24,8 @@ export const Edit = ({
     siteDisplayableName,
     siteInfo,
     formQuery,
-    formQueryParams
+    formQueryParams,
+    close
 }) => {
     const {t} = useTranslation();
     const {
@@ -79,7 +80,7 @@ export const Edit = ({
                 <PublicationInfoContextProvider path={path} lang={lang}>
                     <Formik
                         initialValues={initialValues}
-                        render={props => <EditPanel {...props} title={title}/>}
+                        render={props => <EditPanel {...props} title={title} close={close}/>}
                         validate={validate(sections)}
                         onSubmit={handleSubmit}
                     />
@@ -90,7 +91,8 @@ export const Edit = ({
 };
 
 Edit.defaultProps = {
-    setUrl: () => {}
+    setUrl: () => {},
+    close: undefined
 };
 
 Edit.propTypes = {
@@ -104,5 +106,6 @@ Edit.propTypes = {
     siteDisplayableName: PropTypes.string.isRequired,
     siteInfo: PropTypes.object.isRequired,
     formQuery: PropTypes.object.isRequired,
-    formQueryParams: PropTypes.object.isRequired
+    formQueryParams: PropTypes.object.isRequired,
+    close: PropTypes.func
 };

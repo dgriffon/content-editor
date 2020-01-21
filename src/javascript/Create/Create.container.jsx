@@ -13,24 +13,24 @@ const mapDispatchToProps = dispatch => ({
     setUrl: gotoParams => dispatch(cmGoto(gotoParams))
 });
 
-const mapStateToProps = state => {
+const mapStateToProps = (state, ownProps) => {
     const contentEditorUiLang = Constants.supportedLocales.includes(state.uiLang) ?
         state.uiLang :
         Constants.defaultLocale;
 
     return {
-        path: state.path,
-        lang: state.language,
-        uiLang: state.uiLang,
-        site: state.site,
-        siteDisplayableName: state.siteDisplayableName,
+        path: ownProps.path || state.path,
+        lang: ownProps.language || state.language,
+        uiLang: ownProps.uiLang || state.uiLang,
+        site: ownProps.site || state.site,
+        siteDisplayableName: ownProps.siteDisplayableName || state.siteDisplayableName,
         formQuery: FormQuery,
         formQueryParams: {
-            path: state.path,
-            parentPath: state.path,
-            language: state.language,
+            path: ownProps.path || state.path,
+            parentPath: ownProps.path || state.path,
+            language: ownProps.language || state.language,
             uiLang: contentEditorUiLang,
-            primaryNodeType: state.params.contentType
+            primaryNodeType: ownProps.contentType || state.params.contentType
         }
     };
 };

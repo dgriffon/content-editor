@@ -8,8 +8,8 @@ import {withStyles} from '@material-ui/core';
 import {PreviewContainer} from './PreviewContainer';
 import PublicationInfoProgress from '~/PublicationInfo/PublicationInfo.progress';
 
-const mapStateToProps = state => ({
-    mode: state.mode
+const mapStateToProps = (state, ownProps) => ({
+    mode: ownProps.mode || state.mode
 });
 
 const styles = theme => ({

@@ -32,6 +32,31 @@ const styles = theme => ({
     }
 });
 
+export const CreateNewContentDialogWrapper = () => {
+    const [open, isOpen] = useState(false);
+    const [customProps, setCustomProps] = useState({});
+
+    window.top.CE_API = window.top.CE_API || {};
+    window.top.CE_API.newContentOfType = (parentPath, lang, uiLang) => {
+        isOpen(true);
+        setCustomProps({parentPath, lang, uiLang});
+    };
+
+    return (
+        open && <CreateNewContentDialogCmp open={open}
+                                           onClose={isOpen(false)}
+                                           onExited={() => {
+                                           }}
+                                           {...customProps}
+                                           onCreateContent={contentType => {
+                                               window.top.CE_API.create({
+                                                   ...customProps,
+                                                   contentType: contentType
+                                               });
+                                           }}/>
+    );
+};
+
 const CreateNewContentDialogCmp = ({open, parentPath, onExited, onClose, onCreateContent, uiLang, client, classes}) => {
     const {t} = useTranslation();
     const variables = {

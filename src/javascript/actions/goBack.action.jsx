@@ -48,16 +48,23 @@ export default composeActions(
             context.buttonLabelParams = {parentNodeDisplayName: context.resolveUrlContext.displayName};
         },
         onClick: context => {
+            const close = (setUrl, siteKey, language) => {
+                if (context.close) {
+                    context.close();
+                } else {
+                    setUrl(siteKey, language, context.resolveUrlContext.mode, context.resolveUrlContext.path, {});
+                }
+            };
+
             if (context.formik) {
                 const {siteKey, language, setUrl, lockedEditorContext} = context;
-
                 const executeGoBackAction = () => {
                     if (lockedEditorContext.unlockEditor) {
                         lockedEditorContext.unlockEditor(() => {
-                            setUrl(siteKey, language, context.resolveUrlContext.mode, context.resolveUrlContext.path, {});
+                            close(setUrl, siteKey, language);
                         });
                     } else {
-                        setUrl(siteKey, language, context.resolveUrlContext.mode, context.resolveUrlContext.path, {});
+                        close(setUrl, siteKey, language);
                     }
                 };
 
