@@ -1,5 +1,6 @@
 import React from 'react';
 import {registry} from '@jahia/ui-extender';
+import { connect } from 'react-redux';
 import {registerCEActions} from './registerCEActions';
 import {Constants} from '~/ContentEditor.constants';
 import {useI18nCENamespace} from '~/useI18n';
@@ -18,6 +19,54 @@ const DependenciesInjector = () => {
 registry.add('app', 'content-editor-dependencies-injector', {
     targets: ['root:0.5'],
     render: next => <><DependenciesInjector/>{next}</>
+});
+
+const mapStateToProps = state => {
+    return {
+        path: state.path,
+        siteDisplayableName: state.siteDisplayableName,
+    };
+};
+
+const AlertDialogCmp = ({path, siteDisplayableName}) => {
+    const [open, setOpen] = React.useState(false);
+
+    window.testCE = {
+        open: () => setOpen(true),
+        close: () => setOpen(false)
+    };
+
+    const handleClose = () => {
+        setOpen(false);
+    };
+
+    return (
+        <Dialog
+            open={open}
+            onClose={handleClose}
+            aria-labelledby="alert-dialog-title"
+            aria-describedby="alert-dialog-description"
+        >
+            <DialogTitle id="alert-dialog-title">Sample box on site {siteDisplayableName}</DialogTitle>
+            <DialogContent>
+                <DialogContentText id="alert-dialog-description">
+                    Redux path is {path}
+                </DialogContentText>
+            </DialogContent>
+            <DialogActions>
+                <Button onClick={handleClose} color="primary">
+                    X
+                </Button>
+            </DialogActions>
+        </Dialog>
+    );
+};
+
+const AlertDialog = connect(mapStateToProps)(AlertDialogCmp);
+
+registry.add('app', 'content-editor-component', {
+    targets: ['root:20'],
+    render: next => <><AlertDialog/>{next}</>
 });
 
 registry.add('app', 'content-editor-api', {
