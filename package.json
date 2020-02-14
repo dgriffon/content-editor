@@ -18,12 +18,6 @@
         "build-storybook": "STORYBOOK_ENV=true build-storybook",
         "publish-storybook": "rsync -r ./storybook-static/ jahia@design.int.jahia.com:/var/www/vhosts/contenteditor.jahia.design/html"
     },
-    "husky": {
-        "hooks": {
-            "pre-commit": "yarn lint",
-            "pre-push": "yarn test"
-        }
-    },
     "description": "Content and Media Manager for DX",
     "main": "index.js",
     "repository": "git@github.com:Jahia/content-editor.git",
