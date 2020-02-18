@@ -1,9 +1,15 @@
 import React from 'react';
 import {registry} from '@jahia/ui-extender';
-import { connect } from 'react-redux';
+import {connect} from 'react-redux';
 import {registerCEActions} from './registerCEActions';
 import {Constants} from '~/ContentEditor.constants';
 import {useI18nCENamespace} from '~/useI18n';
+import Dialog from '@material-ui/core/Dialog';
+import Button from '@material-ui/core/Button';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogActions from '@material-ui/core/DialogActions';
 import ContentEditorApi from '~/Api/ContentEditor.api';
 import ContentEditorRedux from './ContentEditor.redux';
 
@@ -23,8 +29,8 @@ registry.add('app', 'content-editor-dependencies-injector', {
 
 const mapStateToProps = state => {
     return {
-        path: state.path,
-        siteDisplayableName: state.siteDisplayableName,
+        path: state.jcontent.path,
+        siteDisplayableName: state.site
     };
 };
 
@@ -43,9 +49,9 @@ const AlertDialogCmp = ({path, siteDisplayableName}) => {
     return (
         <Dialog
             open={open}
-            onClose={handleClose}
             aria-labelledby="alert-dialog-title"
             aria-describedby="alert-dialog-description"
+            onClose={handleClose}
         >
             <DialogTitle id="alert-dialog-title">Sample box on site {siteDisplayableName}</DialogTitle>
             <DialogContent>
@@ -54,7 +60,7 @@ const AlertDialogCmp = ({path, siteDisplayableName}) => {
                 </DialogContentText>
             </DialogContent>
             <DialogActions>
-                <Button onClick={handleClose} color="primary">
+                <Button color="primary" onClick={handleClose}>
                     X
                 </Button>
             </DialogActions>
