@@ -29,7 +29,7 @@ registry.add('app', 'content-editor-dependencies-injector', {
 
 const mapStateToProps = state => {
     return {
-        path: state.jcontent.path,
+        path: state.jcontent.path || '/',
         siteDisplayableName: state.site
     };
 };
